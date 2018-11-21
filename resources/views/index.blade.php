@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>TO DO bLIST</title>
 
@@ -27,16 +28,26 @@
     <h3 id="main-text" class="my-3 text-center text-black-50">This is what you have to do: </h3>
 
     <!-- Input Form -->
-    <div class="input-group my-3 input-group-lg mx-auto p-3 active" id="form">
-        <input type="text" class="form-control text-black-50 btn-outline-secondary" placeholder="New Task" aria-label="New Task"
-               aria-describedby="button-addon2" id="formContent">
-        <div class="input-group-append" id="addButton">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2">Add</button>
+    <form action="/tasks" method="POST" id="taskSubmitter">
+        @csrf
+        <div class="input-group my-3 input-group-lg mx-auto p-3 active" id="form">
+            <input type="text" class="form-control text-black-50 btn-outline-secondary" placeholder="New Task" aria-label="New Task" aria-describedby="button-addon2" id="formContent" name="text">
+            <div class="input-group-append" id="addButton">
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Add</button>
+            </div>
         </div>
-    </div>
+    </form>
 
     <!-- The task list -->
-    <ul class="list-group list-group-flush mx-auto w-75" id="tasks"></ul>
+    <ul class="list-group list-group-flush mx-auto w-75" id="tasks">
+        @foreach($tasks as $task)
+            <li class="list-group-item text-black-50 btn-lg text-center mx-auto task" id="task">
+                <a href="#" class="remove">
+                    {{ $task->text }}
+                </a>
+            </li>
+        @endforeach
+    </ul>
 </div>
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

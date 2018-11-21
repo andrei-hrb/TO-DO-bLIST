@@ -1,5 +1,4 @@
 <?php
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', 'TaskController@index');
+Route::post('/tasks', 'TaskController@store');

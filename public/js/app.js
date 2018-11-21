@@ -75,18 +75,33 @@ module.exports = __webpack_require__(2);
 /* 1 */
 /***/ (function(module, exports) {
 
+var _this = this;
+
 var $document = $(document);
 $document.ready(function () {
     var $addButton = $('#addButton');
     var $content = $('#formContent');
     var $tasks = $('#tasks');
 
+    $('#taskSubmitter').submit(function (e) {
+        e.preventDefault();
+    });
+
     function addTask(text) {
         if ($content.val() !== '') {
-            var $snippet = $('<li class="list-group-item text-black-50 btn-lg text-center mx-auto task" id="task"><a href="#" class="remove">' + text + '</a></li>').hide();
-            $tasks.append($snippet);
-            $snippet.slideDown('slow');
-            $content.val('');
+            $.ajax({
+                type: 'post',
+                url: '/tasks',
+                data: $content.serialize(),
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                success: function success() {
+                    var $snippet = $('<li class="list-group-item text-black-50 btn-lg text-center mx-auto task" id="task"><a href="#" class="remove">' + text + '</a></li>').hide();
+                    $tasks.append($snippet);
+                    $snippet.slideDown('slow');
+
+                    $content.val('');
+                }
+            });
         }
     }
 
@@ -94,14 +109,14 @@ $document.ready(function () {
         addTask($content.val());
     });
 
-    $document.on('keydown', function (e) {
+    $document.on('keydpress', function (e) {
         if (e.keyCode == 13) addTask($content.val());
     });
 
-    $document.on("click", "a.remove", function () {
-        var _this = this;
+    $document.on("click", "a.remove", function (e) {
+        e.preventDefault();
 
-        $(this).parent().slideUp('slow', function () {
+        $(_this).parent().slideUp('slow', function () {
             $(_this).parent().remove();
         });
     });
