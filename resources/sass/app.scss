@@ -1,14 +1,40 @@
+$primaryColor: rgb(161,218,199);
+$secondaryColor: rgb(107,117,126);
+$primaryFont: 'Concert One', serif;
+$secondaryFont: Lato;
+$fontSize: 15vmin;
 
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+body {
+  background-color: $primaryColor;
+}
 
-// Variables
-@import 'variables';
+#main-h1,
+#main-text{
+  font-family: $primaryFont;
+}
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+#formContent,
+#button-addon2,
+#task{
+  font-family: $secondaryFont;
+  background-color: $primaryColor;
+}
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+#main-h1 {
+  font-size: $fontSize;
+}
+
+#main-text {
+  font-size: $fontSize / 3;
+}
+
+a,
+a:hover{
+  text-decoration: none;
+  font-family: $secondaryFont;
+  color: $secondaryColor;
+}
+
+a:hover {
+  text-decoration: line-through;
 }
