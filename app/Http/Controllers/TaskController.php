@@ -18,4 +18,9 @@ class TaskController extends Controller
             'text' => request()->text,
         ]);
     }
+
+    public function destroy(Task $task)
+    {
+        $task->delete();
+    }
 }
