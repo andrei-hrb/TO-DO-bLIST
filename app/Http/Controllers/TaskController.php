@@ -5,6 +5,7 @@ use App\Task;
 
 class TaskController extends Controller
 {
+
     public function index()
     {
         $tasks = Task::all();
@@ -14,9 +15,11 @@ class TaskController extends Controller
 
     public function store()
     {
-        Task::create([
-            'text' => request()->text,
-        ]);
+        $task = Task::create(request()->validate([
+            'text' => 'required|max:255'
+        ]));
+
+        return response()->json($task->id);
     }
 
     public function destroy(Task $task)
