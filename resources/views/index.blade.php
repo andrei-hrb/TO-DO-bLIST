@@ -55,6 +55,24 @@
 </head>
 
 <body>
+<li class="nav-item dropdown">
+    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+        {{ Auth::user()->name }} <span class="caret"></span>
+    </a>
+
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="{{ route('logout') }}"
+           onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+            {{ __('Logout') }}
+        </a>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
+    </div>
+</li>
+
 <div class="container">
     <!-- The text -->
     <h1 id="main-h1" class="my-2 text-center col-sm flex text-black-50">TO DO bLIST</h1>
@@ -62,7 +80,7 @@
     <h3 id="main-text" class="my-3 text-center text-black-50">This is what you have to do: </h3>
 
     <!-- Input Form -->
-    <form action="/tasks" method="POST" id="taskSubmitter">
+    <form action="/tasks" method="POST" id="taskSubmitter" autocomplete="off">
         @csrf
         <div class="input-group my-3 input-group-lg mx-auto p-3 active" id="form">
             <input type="text" class="form-control text-black-50 btn-outline-secondary" placeholder="New Task" aria-label="New Task" aria-describedby="button-addon2" id="formContent" name="text" required>
@@ -72,7 +90,7 @@
         </div>
     </form>
 
-    <!-- The tasks list -->
+    <!-- The tasks list
     <ul class="list-group list-group-flush mx-auto w-75" id="tasks">
         @foreach($tasks as $task)
             <li class="list-group-item text-black-50 btn-lg text-center mx-auto task" id="task">
@@ -81,7 +99,7 @@
                 </a>
             </li>
         @endforeach
-    </ul>
+    </ul-->
 </div>
 
 <!-- Bootstrap's reqs -->
@@ -128,7 +146,7 @@
                             <a href="#" class="remove" onclick="$.ajax({type: 'delete', url: '/tasks/${response}', headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}, success: () => {$(this).parent().slideUp('slow', () => {$(this).parent().remove();});}});">
                                 ${$content.val()}
                             </a>
-                        </li>`).hide();
+                     </li>`).hide();
                 $tasks.append($snippet);
                 $snippet.slideDown('slow');
 
