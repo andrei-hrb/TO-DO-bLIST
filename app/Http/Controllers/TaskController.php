@@ -16,9 +16,9 @@ class TaskController extends Controller
 
     public function index()
     {
-        $tasks = Task::where('user_id', auth()->id())->get();
+        $tasks = User::find(\Auth::id())->tasks()->get();
 
-        return view('index', compact('tasks'));
+        return view('tasks.index', compact('tasks'));
     }
 
     public function store(TaskRequest $taskRequest)
