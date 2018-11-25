@@ -1,23 +1,29 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Requests\TaskRequest;
 use App\Task;
+use App\User;
+
 
 class TaskController extends Controller
 {
 
-    public function index()
+    public function __construct()
     {
-        $tasks = Task::all();
-
-        return view('index', compact('tasks'));
+        $this->middleware('auth');
     }
 
-    public function store()
+    public function index()
     {
-        $task = Task::create(request()->validate([
-            'text' => 'required|max:255'
-        ]));
+        $tasks = User::find(\Auth::id())->tasks()->get();
+
+        return view('tasks.index', compact('tasks'));
+    }
+
+    public function store(TaskRequest $taskRequest)
+    {
+        $task = Task::create($taskRequest->all());
 
         return response()->json($task->id);
     }
