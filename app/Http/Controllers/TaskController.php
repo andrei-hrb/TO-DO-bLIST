@@ -18,15 +18,12 @@ class TaskController extends Controller
     {
         $tasks = Task::where('user_id', auth()->id())->get();
 
-        dd($tasks);
-
         return view('index', compact('tasks'));
     }
 
     public function store(TaskRequest $taskRequest)
     {
-        $task = new Task($taskRequest->all());
-        $task->save();
+        $task = Task::create($taskRequest->all());
 
         return response()->json($task->id);
     }
