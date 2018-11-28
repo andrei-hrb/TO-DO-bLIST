@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Requests\TaskRequest;
 use App\Task;
-use App\User;
+use App\Http\Requests\TaskRequest;
 
 
 class TaskController extends Controller
@@ -16,7 +15,7 @@ class TaskController extends Controller
 
     public function index()
     {
-        $tasks = User::find(\Auth::id())->tasks()->get();
+        $tasks = Task::getTasks(auth()->id());
 
         return view('tasks.index', compact('tasks'));
     }

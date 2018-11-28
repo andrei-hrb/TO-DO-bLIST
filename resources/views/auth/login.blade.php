@@ -46,13 +46,27 @@
                         <button type="submit" class="btn btn-lg btn-outline-primary">
                             <span id="text">{{ __('Login') }}</span>
                         </button>
-
-                        <button class="btn btn-lg btn-outline-primary" onclick="event.preventDefault(); window.location.replace('/password');">
-                            <span id="text">{{ __('Forgot Your Password?') }}</span>
-                        </button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+
+    <script>
+        let elements = document.getElementsByClassName("form-control");
+        let currentIndex = 0;
+
+        document.onkeydown = function(e) {
+            switch (e.keyCode) {
+                case 38:
+                    currentIndex = (currentIndex === 0) ? elements.length - 1 : --currentIndex;
+                    elements[currentIndex].focus();
+                    break;
+                case 40:
+                    currentIndex = ((currentIndex + 1) === elements.length) ? 0 : ++currentIndex;
+                    elements[currentIndex].focus();
+                    break;
+            }
+        };
+    </script>
 @endsection

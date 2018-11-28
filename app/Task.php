@@ -17,4 +17,9 @@ class Task extends Model
             $model['user_id'] = \Auth::user()->id;
         });
     }
+
+    public static function getTasks($user)
+    {
+        return User::find($user)->tasks()->get();
+    }
 }
