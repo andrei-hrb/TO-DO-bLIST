@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title') Tasks @endsection
-@section('customText') This is what you have to do, <a class="logout" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ Auth::user()->name  }}</a>:
+@section('customText') Do it, <a class="logout" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ Auth::user()->name  }}</a>; please!
 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
     @csrf
 </form>
@@ -60,6 +60,12 @@
             if (e.keyCode == 13) addTask();
         });
 
+        function encodeHTML(string) {
+            return string.replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/"/g, '&quot;');
+        }
+
         function addTask() { // add task logic
             $.ajax({
                 type: 'post',
@@ -70,9 +76,9 @@
                     const $snippet = $(
                         `<li class="list-group-item text-black-50 btn-lg text-center mx-auto task" id="task">
                             <a href="#" class="remove" onclick="$.ajax({type: 'delete', url: '/tasks/${response}', headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}, success: () => {$(this).parent().slideUp('slow', () => {$(this).parent().remove();});}});">
-                                ${$content.val()}
+                                ${encodeHTML($content.val())}
                             </a>
-                     </li>`).hide();
+                        </li>`).hide();
                     $tasks.append($snippet);
                     $snippet.slideDown('slow');
 
